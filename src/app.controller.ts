@@ -1,12 +1,16 @@
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { ConfigService } from './modules/shared/services/config.service';
 
-@Controller()
+@Controller('/api')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly configService: ConfigService) {}
 
   @Get()
-  healthCheck(): string {
-    return this.appService.healthCheck();
+  healthCheck() {
+    return {
+      name: this.configService.appName,
+      version: this.configService.appVersion,
+      environment: this.configService.nodeEnv,
+    };
   }
 }
