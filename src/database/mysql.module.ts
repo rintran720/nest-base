@@ -2,11 +2,13 @@ import { Module, forwardRef } from '@nestjs/common';
 import { SharedModule } from '../modules/shared/shared.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '../modules/shared/services/config.service';
+import { User } from '../modules/user/user.entity';
+import { Role } from '../modules/authorization/role.entity';
+import { Permission } from '../modules/authorization/permission.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      // name: 'DEFAULT',
       imports: [forwardRef(() => SharedModule)],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
@@ -18,6 +20,7 @@ import { ConfigService } from '../modules/shared/services/config.service';
           // query: {
           //   raw: true,
           // }
+          entities: [User, Role, Permission],
         };
       },
     }),
